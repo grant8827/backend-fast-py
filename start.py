@@ -15,14 +15,28 @@ async def run_migrations():
     if settings.environment == "production" and "postgresql" in settings.database_url:
         try:
             print("🗄️ Running database migrations...")
+            
+            # First, check if we need to reset the database
+            result = subprocess.run(["alembic", "current"], 
+                                 capture_output=True, text=True)
+            
+            # Try to run upgrade
             result = subprocess.run(["alembic", "upgrade", "head"], 
                                  capture_output=True, text=True, check=True)
             print("✅ Database migrations completed")
+            print(f"Migration output: {result.stdout}")
             return True
+            
         except subprocess.CalledProcessError as e:
             print(f"❌ Migration failed: {e}")
             print(f"Output: {e.stdout}")
             print(f"Error: {e.stderr}")
+            
+            # If migration fails due to schema conflicts, suggest manual intervention
+            if "cannot be implemented" in e.stderr or "incompatible types" in e.stderr:
+                print("💡 Schema conflict detected. This may require database reset.")
+                print("💡 In Railway dashboard, you can reset the database and redeploy.")
+            
             return False
         except FileNotFoundError:
             print("⚠️ Alembic not found, skipping migrations")
