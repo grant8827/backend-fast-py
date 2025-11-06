@@ -18,8 +18,10 @@ from app.database import Base
 from app.config import settings
 
 # Import all models to ensure they're registered with Base
-from app.auth.models import User
-from app.stations.models import Station, StationSettings
+from app.models import (
+    User, Station, Track, Playlist, PlaylistTrack, 
+    StreamingSession, DJSet
+)
 
 # this is the Alembic Config object
 config = context.config

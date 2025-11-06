@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import DateTime, func
 from datetime import datetime
+from typing import AsyncGenerator
 from .config import settings
 
 
@@ -27,12 +28,23 @@ class Base(DeclarativeBase):
     )
 
 
-# Create async engine
-engine = create_async_engine(
-    settings.database_url,
-    echo=settings.debug,  # Log SQL queries in debug mode
-    future=True
-)
+# Create async engine with PostgreSQL-specific settings
+engine_kwargs = {
+    "echo": settings.debug,  # Log SQL queries in debug mode
+    "future": True
+}
+
+# Add PostgreSQL connection pool settings if using PostgreSQL
+if "postgresql" in settings.database_url:
+    engine_kwargs.update({
+        "pool_size": settings.db_pool_size,
+        "max_overflow": settings.db_max_overflow,
+        "pool_timeout": settings.db_pool_timeout,
+        "pool_pre_ping": True,  # Verify connections before use
+        "pool_recycle": 3600,   # Recycle connections every hour
+    })
+
+engine = create_async_engine(settings.database_url, **engine_kwargs)
 
 # Create async session factory
 AsyncSessionLocal = async_sessionmaker(
@@ -42,7 +54,7 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 
-async def get_db():
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Dependency to get database session
     """

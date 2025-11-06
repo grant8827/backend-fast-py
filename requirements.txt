@@ -9,6 +9,8 @@ python-multipart==0.0.6
 sqlalchemy==2.0.23
 alembic==1.12.1
 aiosqlite==0.19.0
+asyncpg==0.29.0
+psycopg2-binary==2.9.7
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
