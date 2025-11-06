@@ -67,10 +67,12 @@ async def root():
 # Startup event
 @app.on_event("startup")
 async def startup_event():
-    """Initialize database on startup"""
-    await init_db()
+    """Initialize database on startup - using Alembic migrations instead of create_all"""
+    # In production, use Alembic migrations instead of create_all to avoid schema conflicts
+    # await init_db()  # Disabled - use alembic upgrade head instead
     print(f"🚀 {settings.service_name} v{settings.service_version} started!")
     print(f"📚 API Documentation: http://{settings.server_host}:{settings.server_port}/api/docs")
+    print("💡 Note: Make sure to run 'alembic upgrade head' to apply database migrations")
 
 # Exception handler
 @app.exception_handler(Exception)

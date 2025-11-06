@@ -31,15 +31,17 @@ async def run_migrations():
         print("ℹ️ Skipping migrations (development or SQLite)")
         return True
 
-async def initialize_database():
-    """Initialize database tables if needed"""
+async def verify_database_connection():
+    """Verify database connection without creating tables"""
     try:
-        from app.database import init_db
-        await init_db()
-        print("✅ Database tables initialized")
+        from app.database import engine
+        async with engine.begin() as conn:
+            # Simple connection test
+            await conn.execute("SELECT 1")
+        print("✅ Database connection verified")
         return True
     except Exception as e:
-        print(f"❌ Database initialization failed: {e}")
+        print(f"❌ Database connection failed: {e}")
         return False
 
 if __name__ == "__main__":
@@ -58,9 +60,9 @@ if __name__ == "__main__":
         print("❌ Failed to run migrations")
         startup_success = False
     
-    # Initialize database
-    if not asyncio.run(initialize_database()):
-        print("❌ Failed to initialize database")
+    # Verify database connection
+    if not asyncio.run(verify_database_connection()):
+        print("❌ Failed to connect to database")
         startup_success = False
     
     if not startup_success:
