@@ -14,6 +14,7 @@ from .database import init_db
 from .auth.router import router as auth_router
 from .stations.router import router as stations_router
 from .music.router import router as music_router
+from .audio.router import router as audio_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -42,6 +43,7 @@ if os.path.exists(settings.upload_dir):
 app.include_router(auth_router)
 app.include_router(stations_router)
 app.include_router(music_router)
+app.include_router(audio_router)
 
 # Health check endpoint
 @app.get("/api/health/")
