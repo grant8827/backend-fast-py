@@ -73,7 +73,7 @@ class Settings:
         self.service_name = "OneStopRadio-FastAPI"
         self.service_version = "1.0.0"
         self.server_host = "0.0.0.0"
-        self.server_port = int(os.getenv("PORT", "8000"))
+        self.server_port = int(os.getenv("PORT", "8002"))
         
         # Create upload directory if it doesn't exist
         os.makedirs(self.upload_dir, exist_ok=True)

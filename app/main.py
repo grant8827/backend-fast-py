@@ -15,6 +15,7 @@ from .auth.router import router as auth_router
 from .stations.router import router as stations_router
 from .music.router import router as music_router
 from .audio.router import router as audio_router
+from .streams.routes import router as streams_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -44,6 +45,7 @@ app.include_router(auth_router)
 app.include_router(stations_router)
 app.include_router(music_router)
 app.include_router(audio_router)
+app.include_router(streams_router)
 
 # Health check endpoint
 @app.get("/api/health/")
