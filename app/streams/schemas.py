@@ -118,7 +118,7 @@ class StreamResponse(BaseModel):
     connection_info: Optional[Dict[str, str]] = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
     @classmethod
     def from_orm(cls, stream_obj):
@@ -169,7 +169,7 @@ class StreamTemplateResponse(BaseModel):
     config_preview: Optional[Dict[str, Any]] = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
     @classmethod
     def from_orm(cls, template_obj):
@@ -199,7 +199,7 @@ class MountPointResponse(BaseModel):
     is_system_reserved: bool
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class StreamAnalyticsResponse(BaseModel):
@@ -225,7 +225,7 @@ class StreamAnalyticsResponse(BaseModel):
     listener_countries: Optional[Dict[str, int]]
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class StreamEventResponse(BaseModel):
@@ -240,7 +240,7 @@ class StreamEventResponse(BaseModel):
     event_data: Optional[Dict[str, Any]]
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class StreamConnectionResponse(BaseModel):
@@ -259,7 +259,7 @@ class StreamConnectionResponse(BaseModel):
     disconnect_reason: Optional[str]
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # Analytics and reporting schemas
@@ -353,7 +353,7 @@ class IcecastConfigTemplate(BaseModel):
     mp3_metadata: bool = True
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "burst_on_connect": True,
                 "burst_size": 65536,
