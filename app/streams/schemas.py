@@ -3,7 +3,7 @@ Pydantic schemas for Stream Management API
 Request/Response models for dynamic stream provisioning
 """
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from enum import Enum
@@ -24,7 +24,7 @@ class StreamCreate(BaseModel):
     bitrate: Optional[int] = Field(None, ge=32, le=320, description="Stream bitrate in kbps")
     max_listeners: Optional[int] = Field(None, ge=1, le=1000, description="Maximum concurrent listeners")
     quality: StreamQuality = Field(StreamQuality.STANDARD, description="Stream quality preset")
-    format: Optional[str] = Field("mp3", pattern="^(mp3|aac|ogg)$", description="Audio format")
+    format: Optional[str] = Field("mp3", pattern=r"^(mp3|aac|ogg)$", description="Audio format")
     
     # Access control
     public: bool = Field(True, description="Whether stream appears in public directory")
@@ -36,14 +36,16 @@ class StreamCreate(BaseModel):
     # Advanced configuration (optional)
     icecast_config: Optional[Dict[str, Any]] = Field(None, description="Custom Icecast configuration")
     
-    @validator('stream_name')
+    @field_validator('stream_name')
+    @classmethod
     def validate_stream_name(cls, v):
         # Remove special characters for mount point generation
         if not v.replace(' ', '').replace('-', '').replace('_', '').isalnum():
             raise ValueError('Stream name must contain only alphanumeric characters, spaces, hyphens, and underscores')
         return v.strip()
     
-    @validator('bitrate')
+    @field_validator('bitrate')
+    @classmethod
     def validate_bitrate(cls, v):
         if v is not None:
             # Common bitrate values
@@ -267,7 +269,7 @@ class StreamStatsRequest(BaseModel):
     stream_id: str
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
-    granularity: str = Field("hour", pattern="^(minute|hour|day|month)$")
+    granularity: str = Field("hour", pattern=r"^(minute|hour|day|month)$")
     metrics: List[str] = Field(default=["listeners", "bandwidth"], description="Metrics to include")
 
 
@@ -298,7 +300,7 @@ class BulkStreamOperation(BaseModel):
     """Schema for bulk operations on multiple streams"""
     
     stream_ids: List[str] = Field(..., min_items=1, max_items=50)
-    operation: str = Field(..., pattern="^(activate|deactivate|delete|update)$")
+    operation: str = Field(..., pattern=r"^(activate|deactivate|delete|update)$")
     operation_data: Optional[Dict[str, Any]] = None
 
 

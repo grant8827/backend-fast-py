@@ -6,7 +6,7 @@ Helper functions for mount point generation, validation, etc.
 import re
 import secrets
 import string
-from typing import Optional, List
+from typing import Optional, List, Dict
 from sqlalchemy.orm import Session
 
 from ..stream_models import MountPoint, UserStream
@@ -257,7 +257,7 @@ def sanitize_mount_point(mount_point: str) -> str:
     return mount_point
 
 
-def generate_icecast_config(stream_data: Dict) -> Dict[str, any]:
+def generate_icecast_config(stream_data: dict) -> dict[str, any]:
     """
     Generate Icecast mount point configuration.
     
@@ -332,7 +332,7 @@ def validate_mount_point_availability(mount_point: str, db: Session, exclude_str
     return existing is None
 
 
-def get_recommended_bitrates() -> List[Dict[str, any]]:
+def get_recommended_bitrates() -> list[dict[str, any]]:
     """
     Get list of recommended bitrate configurations.
     
@@ -393,7 +393,7 @@ def format_bandwidth_usage(bytes_count: int) -> str:
         return f"{bytes_count / (1024 ** 3):.2f} GB"
 
 
-def calculate_stream_uptime(created_at, last_connected_at, current_status) -> Dict[str, any]:
+def calculate_stream_uptime(created_at, last_connected_at, current_status) -> dict[str, any]:
     """
     Calculate stream uptime statistics.
     

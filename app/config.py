@@ -51,7 +51,8 @@ class Settings:
                 "http://localhost:5001", 
                 "http://127.0.0.1:3000",
                 "http://127.0.0.1:5001",
-                "http://0.0.0.0:3000"
+                "http://0.0.0.0:3000",
+                "https://onestopradio.up.railway.app"
             ]
         
         # Add Railway deployment URLs if available
@@ -75,7 +76,7 @@ class Settings:
         self.service_name = "OneStopRadio-FastAPI"
         self.service_version = "1.0.0"
         self.server_host = "0.0.0.0"
-        self.server_port = int(os.getenv("PORT", "8002"))
+        self.server_port = int(os.getenv("PORT", "8000"))
         
         # Create upload directory if it doesn't exist
         os.makedirs(self.upload_dir, exist_ok=True)

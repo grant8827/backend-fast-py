@@ -18,6 +18,12 @@ from .audio.router import router as audio_router
 from .streams.routes import router as streams_router
 from .stream_provisioning.routes import router as stream_provisioning_router
 
+# Import models to register them with SQLAlchemy
+from .auth.models import User
+from .music.models import Track, Playlist
+from .streams.models import Stream
+from .stream_provisioning_models import DedicatedStream, StreamCredentials
+
 # Create FastAPI app
 app = FastAPI(
     title="OneStopRadio API",
@@ -73,12 +79,15 @@ async def root():
 # Startup event
 @app.on_event("startup")
 async def startup_event():
-    """Initialize database on startup - using Alembic migrations instead of create_all"""
-    # In production, use Alembic migrations instead of create_all to avoid schema conflicts
-    # await init_db()  # Disabled - use alembic upgrade head instead
+    """Initialize database on startup"""
+    try:
+        await init_db()
+        print(f"✅ Database tables created/verified")
+    except Exception as e:
+        print(f"⚠️ Database initialization warning: {e}")
+    
     print(f"🚀 {settings.service_name} v{settings.service_version} started!")
     print(f"📚 API Documentation: http://{settings.server_host}:{settings.server_port}/api/docs")
-    print("💡 Note: Make sure to run 'alembic upgrade head' to apply database migrations")
 
 # Exception handler
 @app.exception_handler(Exception)
