@@ -266,10 +266,6 @@ class CppControllerService:
             "error_message": cpp_status.get("error_message", ""),
             "last_update": cpp_status.get("last_update")
         }
-            
-        except Exception as e:
-            logger.error(f"Failed to get server stats: {e}")
-            return None
     
     async def close(self):
         """Close HTTP client"""

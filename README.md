@@ -1,10 +1,12 @@
-# OneStopRadio FastAPI Backend
+3 # OneStopRadio FastAPI Backend
 
-Modern async Python API for the OneStopRadio DJ platform, built with FastAPI, SQLAlchemy, and JWT authentication.
+Modern async Python API for the OneStopRadio DJ platform. Built with FastAPI, SQLAlchemy, and JWT authentication, it now includes dynamic stream provisioning for every user.
 
 ## 🚀 Quick Start
 
 ### 1. Install Dependencies
+
+Make sure you have `httpx` for service-to-service communication.
 ```bash
 cd backend-fast-py
 pip install -r requirements.txt
@@ -45,6 +47,10 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - `POST /upload-logo/` - Upload station logo
 - `POST /upload-cover/` - Upload cover image
 - `POST /update-stats/` - Update streaming statistics
+
+### Streaming (`/api/v1/streams/`)
+- `GET /my-stream/` - Get the current user's stream connection details
+- (Internal endpoints for creating/managing streams are used by the system)
 
 ## 🏗 Architecture
 
@@ -104,7 +110,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 REFRESH_TOKEN_EXPIRE_DAYS=7
 
 # CORS
-CORS_ORIGINS=http://localhost:3000,http://localhost:5000
+CORS_ORIGINS=["http://localhost:3000"]
 
 # File Uploads
 MAX_UPLOAD_SIZE=10485760
