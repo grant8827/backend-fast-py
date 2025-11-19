@@ -21,8 +21,8 @@ from .stream_provisioning.routes import router as stream_provisioning_router
 # Import models to register them with SQLAlchemy
 from .auth.models import User
 from .music.models import Track, Playlist
-from .streams.models import Stream
-from .stream_provisioning_models import DedicatedStream, StreamCredentials
+# from .streams.models import Stream  # Not implemented yet
+from .stream_provisioning.stream_provisioning_models import DedicatedStream
 
 # Create FastAPI app
 app = FastAPI(

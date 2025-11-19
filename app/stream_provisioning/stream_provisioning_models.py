@@ -11,7 +11,7 @@ from typing import Optional, List, Dict, Any
 import uuid
 import enum
 
-from .database import Base
+from ..database import Base
 
 
 class StreamStatus(enum.Enum):
@@ -225,7 +225,7 @@ class ShoutcastServer(Base):
 
 
 # Add relationships to existing User model
-from .models import User
+from ..auth.models import User
 User.dedicated_streams = relationship("DedicatedStream", back_populates="user", cascade="all, delete-orphan")
 
 
