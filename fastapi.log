@@ -5843,3 +5843,9 @@ INFO:     127.0.0.1:55344 - "POST /api/groups/validate-name HTTP/1.1" 404 Not Fo
 INFO:     127.0.0.1:58497 - "GET /api/health HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:58928 - "GET /api/health HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:56641 - "POST /api/groups/validate-name HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60675 - "POST /api/groups HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63276 - "POST /api/groups HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53260 - "POST /api/groups HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57745 - "OPTIONS /api/validate-step2 HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:57745 - "OPTIONS /api/validate-step2 HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:58107 - "OPTIONS /api/validate-step2 HTTP/1.1" 400 Bad Request
